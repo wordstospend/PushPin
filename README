@@ -1,0 +1,39 @@
+I chose to use Node for no particular reason other than it was what
+was under my fingers when I got around to this work. In order to
+insure that the people could run this code without downloading any
+dependencies I have written a little bit of stdin/out boiler plate in
+app.js. I have tested this code well in Apple OS X but sense I am
+at my parents house for a funeral I haven't tested it on either a
+windows box or any other *nix systems. Last time I really got into it
+nodes streams were not working well cross platform. I hope you take
+this into consideration.
+
+If you would like you can run 'npm install' -> 'npm test' and the
+local test suite will run. But if you don't want to run the test suite
+then there are no external module dependencies.
+
+
+A bit about the solution:
+
+I chose this particular solution for a couple of reasons:
+1) it runs in constant time against all of the primary functions (SET,
+   GET, UNSET, NUMEQUALTO). ROLLBACK runs in linear of the number of
+   commands in the transaction. ROLLBACK could be improved by instead
+   of saving deltas saving the set of keys changed during the
+   transaction along with their values at the start of the
+   transaction. This would reduce the space used by the transactions
+   to be linear to the number of keys touched. It would also reduce the
+   run-time of rollback. This solution was a bit more complex and has
+   the disadvantage that it doesn't match the write ahead log style of
+   databases of our forefathers. Given these two things I chose not to
+   iterate on what I had but instead to call out that this part of the
+   solution could be improved.
+
+2) A careful reader of the code will notice that NUMEQUALTO must
+   store every value of our db a second time (a requirement of the hash
+   table used to store the count). Creating a space requirement of
+   O(2n) of value keys. While this is true in this particular
+   implementation of this overall strategy, if we were to rewrite this
+   in a language that allowed true pointers we could change that. The
+   result would a reduction of space requirements to O(n). If you
+   are curious about my solution for this I'd be happy to go over it.

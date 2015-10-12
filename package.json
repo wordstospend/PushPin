@@ -1,0 +1,13 @@
+{
+  "name": "interviewThumbTack",
+  "version": "0.0.0",
+  "description": "In memory db",
+    "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+      "mocha": "*"
+  }
+}
